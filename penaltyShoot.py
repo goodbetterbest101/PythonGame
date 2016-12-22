@@ -15,7 +15,9 @@ class SpaceGameWindow(arcade.Window):
         super().__init__(width, height,title="Penalty Shooter!")
         self.grid = Grid()
         self.player = Player(self.grid)
+        self.goalkeeper = Goalkeeper(self.grid,self.player)
         arcade.set_background_color(arcade.color.WHITE)
+
         self.bg = arcade.Sprite('bg.jpg')
         self.bg.set_position(400,300)
 
@@ -26,6 +28,7 @@ class SpaceGameWindow(arcade.Window):
         arcade.start_render()
         self.bg.draw()
         self.grid.on_draw()
+        self.goalkeeper.on_draw()
         arcade.draw_text("Q", 72, 448, arcade.color.WHITE, 16)
         arcade.draw_text("W", 72, 275, arcade.color.WHITE, 16)
         arcade.draw_text("R", 390, 448, arcade.color.WHITE, 16)
@@ -39,10 +42,38 @@ class SpaceGameWindow(arcade.Window):
         self.grid.on_key_press(key, modifiers)
         self.player.on_key_press(key, modifiers)
 
+class Goalkeeper:
+    def __init__(self,oldGrid,oldPlayer):
+        self.grid = oldGrid
+        self.player = oldPlayer
+        self.timeStart = 0.0
+        self.de = arcade.Sprite('de.png')
+        self.de2 = arcade.Sprite('de2.png')
+
+
+    def animate(self, delta_time):
+        self.grid.animate(delta_time)
+
+    def on_draw(self):
+        if self.player.shoot == False :
+            self.de.set_position(400, 350)
+            self.de.draw()
+        if self.player.shoot == True and self.player.goal == 1 :
+            self.de2.set_position(170, 370)
+            self.de2.draw()
+
+
+
+
 class Player:
     def __init__(self,oldGrid):
         self.grid = oldGrid
         self.timeStart = 0.0
+        self.goal = 0
+        self.posiRow = 0
+        self.posiCol = 0
+        self.shoot = False
+
     def on_key_press(self, key, modifiers):
         if key == arcade.key.Q:
             self.checkGoal(10,1)
@@ -63,16 +94,24 @@ class Player:
 
     def checkGoal(self,row,col):
         if self.grid.grid[row][col] == 0:
+            self.shoot = True
             print ("Goal !!")
+            self.goal = 0
+            self.posiRow = row
+            self.posiCol = col
         if self.grid.grid[row][col] == 1:
+            self.shoot = True
             print ("Miss !!")
+            self.goal = 1
+            self.posiRow = row
+            self.posiCol = col
 
     def animate(self, delta_time):
         self.timeStart += delta_time
 
 class Grid:
     def __init__(self):
-        # self.player = Player()
+        self.player =
         self.grid = []
         self.SpacePress = False
         self.dataRow = [6,8,10]
