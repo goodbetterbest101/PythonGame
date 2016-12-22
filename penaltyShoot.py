@@ -12,7 +12,7 @@ MARGIN = 3;
 
 class SpaceGameWindow(arcade.Window):
     def __init__(self, width, height):
-        super().__init__(width, height)
+        super().__init__(width, height,title="Penalty Shooter!")
         self.grid = Grid()
         self.player = Player(self.grid)
         arcade.set_background_color(arcade.color.WHITE)
@@ -26,6 +26,14 @@ class SpaceGameWindow(arcade.Window):
         arcade.start_render()
         self.bg.draw()
         self.grid.on_draw()
+        arcade.draw_text("Q", 72, 448, arcade.color.WHITE, 16)
+        arcade.draw_text("W", 72, 275, arcade.color.WHITE, 16)
+        arcade.draw_text("R", 390, 448, arcade.color.WHITE, 16)
+        arcade.draw_text("Y", 390, 275, arcade.color.WHITE, 16)
+        arcade.draw_text("I", 710, 448, arcade.color.WHITE, 16)
+        arcade.draw_text("O", 710, 275, arcade.color.WHITE, 16)
+        arcade.draw_text("E", 230, 360, arcade.color.WHITE, 16)
+        arcade.draw_text("U", 550, 360, arcade.color.WHITE, 16)
 
     def on_key_press(self, key, modifiers):
         self.grid.on_key_press(key, modifiers)
@@ -131,7 +139,6 @@ class Grid:
                         color = arcade.color.BLACK
                     else:
                         color = arcade.color.WHITE
-
                     # Do the math to figure out where the box is
                     x = (MARGIN + WIDTH) * column + MARGIN + WIDTH // 2
                     y = (MARGIN + HEIGHT) * row + MARGIN + HEIGHT // 2
