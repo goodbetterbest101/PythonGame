@@ -49,6 +49,11 @@ class Goalkeeper:
         self.timeStart = 0.0
         self.de = arcade.Sprite('de.png')
         self.de2 = arcade.Sprite('de2.png')
+        self.de3 = arcade.Sprite('de3.png')
+        self.de22 = arcade.Sprite('de22.png')
+        self.de33 = arcade.Sprite('de33.png')
+        self.de4 = arcade.Sprite('de4.png')
+        self.de5 = arcade.Sprite('de5.png')
 
 
     def animate(self, delta_time):
@@ -58,9 +63,39 @@ class Goalkeeper:
         if self.player.shoot == False :
             self.de.set_position(400, 350)
             self.de.draw()
-        if self.player.shoot == True and self.player.goal == 1 :
+        if self.player.shoot == True and self.player.goal == 0 and self.player.posiCol < 7:
+            self.de33.set_position(600, 400)
+            self.de33.draw()
+        if self.player.shoot == True and self.player.goal == 0 and self.player.posiCol == 7:
+            self.de2.set_position(200, 400)
+            self.de2.draw()
+        if self.player.shoot == True and self.player.goal == 0 and self.player.posiCol > 7:
+            self.de5.set_position(370, 300)
+            self.de5.draw()
+        if self.player.shoot == True and self.player.goal == 1 and self.player.posiRow == 10 and self.player.posiCol == 1:
             self.de2.set_position(170, 370)
             self.de2.draw()
+        if self.player.shoot == True and self.player.goal == 1 and self.player.posiRow == 6 and self.player.posiCol == 1:
+            self.de3.set_position(185, 330)
+            self.de3.draw()
+        if self.player.shoot == True and self.player.goal == 1 and self.player.posiRow == 10 and self.player.posiCol == 13:
+            self.de22.set_position(630, 370)
+            self.de22.draw()
+        if self.player.shoot == True and self.player.goal == 1 and self.player.posiRow == 6 and self.player.posiCol == 13:
+            self.de33.set_position(625, 330)
+            self.de33.draw()
+        if self.player.shoot == True and self.player.goal == 1 and self.player.posiRow == 10 and self.player.posiCol == 7:
+            self.de4.set_position(400, 400)
+            self.de4.draw()
+        if self.player.shoot == True and self.player.goal == 1 and self.player.posiRow == 8 and self.player.posiCol == 4:
+            self.de3.set_position(300, 360)
+            self.de3.draw()
+        if self.player.shoot == True and self.player.goal == 1 and self.player.posiRow == 8 and self.player.posiCol == 10:
+            self.de33.set_position(500, 360)
+            self.de33.draw()
+        if self.player.shoot == True and self.player.goal == 1 and self.player.posiRow == 6 and self.player.posiCol == 7:
+            self.de5.set_position(400, 300)
+            self.de5.draw()
 
 
 
@@ -91,6 +126,8 @@ class Player:
             self.checkGoal(10,13)
         if key == arcade.key.O:
             self.checkGoal(6,13)
+        if self.grid.SpacePress == True :
+            self.shoot = False
 
     def checkGoal(self,row,col):
         if self.grid.grid[row][col] == 0:
@@ -111,7 +148,7 @@ class Player:
 
 class Grid:
     def __init__(self):
-        self.player =
+        # self.player = Player()
         self.grid = []
         self.SpacePress = False
         self.dataRow = [6,8,10]
