@@ -16,6 +16,7 @@ class SpaceGameWindow(arcade.Window):
         self.grid = Grid()
         self.player = Player(self.grid)
         self.goalkeeper = Goalkeeper(self.grid,self.player)
+        self.ball = Ball(self.grid,self.player)
         arcade.set_background_color(arcade.color.WHITE)
 
         self.bg = arcade.Sprite('bg.jpg')
@@ -29,6 +30,7 @@ class SpaceGameWindow(arcade.Window):
         self.bg.draw()
         self.grid.on_draw()
         self.goalkeeper.on_draw()
+        self.ball.on_draw()
         arcade.draw_text("Q", 72, 448, arcade.color.WHITE, 16)
         arcade.draw_text("W", 72, 275, arcade.color.WHITE, 16)
         arcade.draw_text("R", 390, 448, arcade.color.WHITE, 16)
@@ -41,6 +43,40 @@ class SpaceGameWindow(arcade.Window):
     def on_key_press(self, key, modifiers):
         self.grid.on_key_press(key, modifiers)
         self.player.on_key_press(key, modifiers)
+
+class Ball:
+    def __init__(self,oldGrid,oldPlayer):
+        self.grid = oldGrid
+        self.player = oldPlayer
+        self.ball = arcade.Sprite('ball.png')
+
+    def on_draw(self):
+        if self.player.shoot == True and self.player.posiRow == 10 and self.player.posiCol == 1:
+            self.ball.set_position(80, 440)
+            self.ball.draw()
+        if self.player.shoot == True and self.player.posiRow == 6 and self.player.posiCol == 1:
+            self.ball.set_position(80, 305)
+            self.ball.draw()
+        if self.player.shoot == True and self.player.posiRow == 10 and self.player.posiCol == 13:
+            self.ball.set_position(720, 440)
+            self.ball.draw()
+        if self.player.shoot == True and self.player.posiRow == 6 and self.player.posiCol == 13:
+            self.ball.set_position(720, 305)
+            self.ball.draw()
+        if self.player.shoot == True and self.player.posiRow == 10 and self.player.posiCol == 7:
+            self.ball.set_position(400, 475)
+            self.ball.draw()
+        if self.player.shoot == True and self.player.posiRow == 8 and self.player.posiCol == 4:
+            self.ball.set_position(300, 360)
+            self.ball.draw()
+        if self.player.shoot == True and self.player.posiRow == 8 and self.player.posiCol == 10:
+            self.ball.set_position(500, 360)
+            self.ball.draw()
+        if self.player.shoot == True and self.player.posiRow == 6 and self.player.posiCol == 7:
+            self.ball.set_position(400, 305)
+            self.ball.draw()
+        # self.ball.set_position(400, 350)
+        # self.ball.draw()
 
 class Goalkeeper:
     def __init__(self,oldGrid,oldPlayer):
@@ -167,7 +203,7 @@ class Grid:
         All the logic to move, and the game logic goes here.
         """
         if(self.SpacePress == True):
-            if(self.timeStart < self.temp + 4):
+            if(self.timeStart < self.temp + 2.5):
                 shuffle(self.dataCol)
                 shuffle(self.dataRow)
                 self.grid[self.dataRow[0]][self.dataCol[0]] = 1
