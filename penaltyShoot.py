@@ -14,6 +14,7 @@ class SpaceGameWindow(arcade.Window):
     def __init__(self, width, height):
         super().__init__(width, height)
         self.grid = Grid()
+        self.player = Player(self.grid)
         arcade.set_background_color(arcade.color.WHITE)
         self.bg = arcade.Sprite('bg.jpg')
         self.bg.set_position(400,300)
@@ -28,11 +29,42 @@ class SpaceGameWindow(arcade.Window):
 
     def on_key_press(self, key, modifiers):
         self.grid.on_key_press(key, modifiers)
+        self.player.on_key_press(key, modifiers)
 
+class Player:
+    def __init__(self,oldGrid):
+        self.grid = oldGrid
+        self.timeStart = 0.0
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.Q:
+            self.checkGoal(10,1)
+        if key == arcade.key.W:
+            self.checkGoal(6,1)
+        if key == arcade.key.E:
+            self.checkGoal(8,4)
+        if key == arcade.key.R:
+            self.checkGoal(10,7)
+        if key == arcade.key.Y:
+            self.checkGoal(6,7)
+        if key == arcade.key.U:
+            self.checkGoal(8,10)
+        if key == arcade.key.I:
+            self.checkGoal(10,13)
+        if key == arcade.key.O:
+            self.checkGoal(6,13)
 
+    def checkGoal(self,row,col):
+        if self.grid.grid[row][col] == 0:
+            print ("Goal !!")
+        if self.grid.grid[row][col] == 1:
+            print ("Miss !!")
+
+    def animate(self, delta_time):
+        self.timeStart += delta_time
 
 class Grid:
     def __init__(self):
+        # self.player = Player()
         self.grid = []
         self.SpacePress = False
         self.dataRow = [6,8,10]
@@ -56,6 +88,8 @@ class Grid:
                 shuffle(self.dataRow)
                 self.grid[self.dataRow[0]][self.dataCol[0]] = 1
                 self.grid[self.dataRow[1]][self.dataCol[1]] = 0
+                # print("grid[{}][{}] = {}".format(self.dataRow[0],self.dataCol[0],self.grid[self.dataRow[0]][self.dataCol[0]]))
+                # print("grid[{}][{}] = {}".format(self.dataRow[1],self.dataCol[1],self.grid[self.dataRow[1]][self.dataCol[1]]))
             else :
                 self.SpacePress = False
         self.timeStart += delta_time
